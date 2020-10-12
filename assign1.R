@@ -7,7 +7,8 @@ pollutantmean <- function(directory,pollutant, id = 1:332){
   colnames(datafinal) <- c("Date", "sulfate", "nitrate", "ID")
   
   for(i in 1:length(id)){
-    data <- read.csv(fileslist[id[i]])
+    path <- paste(directory, fileslist[id[i]], sep = "")
+    data <- read.csv(path)
     datafinal <- rbind(datafinal, data)
   }
   
@@ -19,12 +20,9 @@ pollutantmean <- function(directory,pollutant, id = 1:332){
   
   colpollutant_cleaned <- colpollutant[!is.na(colpollutant)]
   meanvalue <- mean(colpollutant_cleaned)
-  
   return(meanvalue)
 }
 
-
-pollutant_mean <- pollutantmean(getwd(),"sulfate", c(1,2,3))
-
-
+files_folder <- "/home/victoria/Documentos/R/RProgramming/RProgramming/files_spec/"
+pollutant_mean <- pollutantmean(files_folder,"sulfate", c(1,2,3))
 
