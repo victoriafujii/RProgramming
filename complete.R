@@ -10,9 +10,10 @@ complete <- function(directory, id=1:332){
     data <- read.csv(path)
     datafinal <- rbind(datafinal, data)
   }
-  datafinal[complete.cases(datafinal), ]
+  df<-datafinal[complete.cases(datafinal), ]
+  df <- df %>% group_by(ID) %>% summarise(number = n())
+  
 }
 
 files_folder <- "/home/victoria/Documentos/R/RProgramming/RProgramming/files_spec/"
 df <- complete(files_folder,1:10)
-df <- df %>% group_by(ID) %>% summarise(number = n())
