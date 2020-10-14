@@ -1,7 +1,6 @@
 library("dplyr")
 
-pollutantmean <- function(directory,pollutant, id = 1:332){
-  
+complete <- function(directory, id=1:332){
   fileslist <- list.files(directory)
   datafinal <- data.frame(matrix(ncol=4, nrow=0))
   colnames(datafinal) <- c("Date", "sulfate", "nitrate", "ID")
@@ -11,18 +10,9 @@ pollutantmean <- function(directory,pollutant, id = 1:332){
     data <- read.csv(path)
     datafinal <- rbind(datafinal, data)
   }
-  
-  if(pollutant == "sulfate"){
-    colpollutant <- datafinal$sulfate
-  } else{
-    colpollutant <- datafinal$nitrate
-  }
-  
-  colpollutant_cleaned <- colpollutant[!is.na(colpollutant)]
-  meanvalue <- mean(colpollutant_cleaned)
-  return(meanvalue)
+  datafinal[complete.cases(datafinal), ]
 }
 
 files_folder <- "/home/victoria/Documentos/R/RProgramming/RProgramming/files_spec/"
-pollutant_mean <- pollutantmean(files_folder,"sulfate",1:10)
-
+df <- complete(files_folder,1:10)
+df <- df %>% group_by(ID) %>% summarise(number = n())
